@@ -4,12 +4,53 @@
 /* Consistent MoonPrints select styling, including the upload modal. */
 select{appearance:none;-webkit-appearance:none;background-color:#1c2128;color:#f6f1e8;border:1px solid #454c56;border-radius:7px;padding:13px 43px 13px 13px;font:inherit;width:100%;outline:none;cursor:pointer;color-scheme:dark;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10' viewBox='0 0 16 10'%3E%3Cpath d='m2 2 6 6 6-6' fill='none' stroke='%23ff681c' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 15px center}
 select:hover{border-color:#78818d;background-color:#252b34}select:focus{border-color:var(--orange);box-shadow:0 0 0 2px #ff681c33}select option{background:#1c2128;color:#f6f1e8}
+
+/* v1.2: responsive full-window exchange */
+.wrap{width:100%;max-width:none;margin:0 auto;padding:clamp(12px,1.2vw,24px)}
+.layout{grid-template-columns:clamp(250px,18vw,330px) minmax(0,1fr);gap:clamp(12px,1.1vw,22px)}
+.gallery{grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:clamp(12px,1vw,20px)}
+.art{height:clamp(180px,13vw,260px)}
+.art svg{width:60%;height:75%;max-width:210px;max-height:165px}
+@media(max-width:950px){.layout{grid-template-columns:1fr}}
+@media(max-width:580px){.wrap{padding:10px}.gallery{grid-template-columns:1fr}}
 </style></head><body><div class="wrap"><header class="panel"><div class="pad header"><div><div class="eyebrow">MOON SWEEPERS // COMMUNITY TERMINAL</div><div class="logo">MOON<span>PRINTS</span></div><div class="subtitle">Discover, download and share construction blueprints across the moon.</div></div><button class="btn primary" id="uploadBtn">＋ UPLOAD BLUEPRINT</button></div></header><main class="layout"><aside class="panel side"><div class="pad"><h3>FILTER BLUEPRINTS</h3><label>CATEGORY</label><select id="category"><option value="">All categories</option><option>Logistics</option><option>Production</option><option>Power</option><option>Structures</option><option>Services</option><option>Other</option></select><label>SORT BY</label><select id="sort"><option value="newest">Newest first</option><option value="popular">Most downloaded</option><option value="oldest">Oldest first</option></select><label>EXCHANGE STATUS</label><div class="stat"><span>Blueprints available</span><b id="count">—</b></div><div class="stat"><span>Total downloads</span><b id="downloads">—</b></div><div class="stat"><span>Backend</span><b id="apiStatus">CONNECTING</b></div><button class="btn" id="refresh" style="width:100%;margin-top:18px">↻ REFRESH EXCHANGE</button></div></aside><section class="panel"><div class="pad"><div class="content-head"><div><div class="eyebrow">COMMUNITY ARCHIVE</div><h2 class="sectiontitle" style="margin:5px 0">BLUEPRINT EXCHANGE</h2></div><input class="search" id="search" placeholder="⌕ Search blueprints, creators..."></div><div class="tabs" id="tabs"><button class="tab active" data-category="">ALL</button><button class="tab" data-category="Logistics">LOGISTICS</button><button class="tab" data-category="Production">PRODUCTION</button><button class="tab" data-category="Power">POWER</button><button class="tab" data-category="Structures">STRUCTURES</button><button class="tab" data-category="Services">SERVICES</button></div><div class="gallery" id="gallery"><div class="empty">CONTACTING MOONPRINTS EXCHANGE...</div></div><div class="status" id="resultInfo" style="margin-top:13px"></div></div></section></main><footer class="foot">MOONPRINTS // COMMUNITY BLUEPRINT EXCHANGE · FAN-MADE COMPANION TOOL</footer></div><div class="modal" id="modal"><div class="dialog panel"><div class="pad" id="modalContent"></div></div></div><script>
 // Set this to your private Render backend's PUBLIC HTTPS URL (no trailing slash).
 const API_BASE='https://moonprintsbackend.onrender.com';
 let items=[],activeCategory='';const $=s=>document.querySelector(s);const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function blueprintArt(){return `<svg viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M26 94 90 58 158 91 91 128Z" fill="#536574" stroke="#ff762e" stroke-width="3"/><path d="M26 94V55L90 20 158 55V91L90 58Z" fill="#d9e1e4" stroke="#7e99a6" stroke-width="3"/><path d="M90 20V58M26 55 90 92 158 55M90 92V128" stroke="#ff762e" stroke-width="3"/><path d="M46 67V52L69 40V80M111 72V43L136 57V83" stroke="#314756" stroke-width="5"/><path d="M38 101 91 72 144 101" stroke="#79c9e4" stroke-width="2" opacity=".7"/></svg>`}
-async function load(){ $('#apiStatus').textContent='CONNECTING';try{const r=await fetch(`${API_BASE}/api/blueprints`);if(!r.ok)throw Error('Backend unavailable');const data=await r.json();items=data.blueprints||[];$('#apiStatus').textContent='ONLINE';$('#count').textContent=items.length;$('#downloads').textContent=items.reduce((a,b)=>a+(b.downloads||0),0).toLocaleString();render()}catch(e){$('#apiStatus').textContent='OFFLINE';items=[];render();$('#resultInfo').textContent='Backend unavailable. Configure API_BASE in index.html and deploy the Render service.'}}
+async function load(){
+  $('#apiStatus').textContent='CONNECTING';
+  $('#resultInfo').textContent='Checking MoonPrints API…';
+  let healthOk=false;
+  try {
+    const health=await fetch(`${API_BASE}/api/health`,{cache:'no-store',signal:AbortSignal.timeout(25000)});
+    if(!health.ok) throw Error(`Health check returned HTTP ${health.status}`);
+    const payload=await health.json();
+    if(payload.status!=='ok') throw Error('Unexpected health response');
+    healthOk=true;
+    $('#apiStatus').textContent='ONLINE';
+  } catch(err) {
+    $('#apiStatus').textContent='UNREACHABLE';
+    $('#resultInfo').textContent=`Cannot reach API health endpoint: ${err.message}. Check Render logs and FRONTEND_ORIGINS (CORS).`;
+    items=[];$('#count').textContent='—';$('#downloads').textContent='—';render();
+    $('#resultInfo').textContent=`Cannot reach API health endpoint: ${err.message}. Check Render logs and FRONTEND_ORIGINS (CORS).`;
+    return;
+  }
+  try {
+    const response=await fetch(`${API_BASE}/api/blueprints`,{cache:'no-store',signal:AbortSignal.timeout(25000)});
+    if(!response.ok) throw Error(`HTTP ${response.status}`);
+    const data=await response.json();
+    if(!Array.isArray(data.blueprints)) throw Error('Invalid blueprint response');
+    items=data.blueprints;
+    $('#count').textContent=items.length;
+    $('#downloads').textContent=items.reduce((a,b)=>a+(b.downloads||0),0).toLocaleString();
+    render();
+  } catch(err) {
+    items=[];$('#count').textContent='—';$('#downloads').textContent='—';render();
+    $('#apiStatus').textContent='API ERROR';
+    $('#resultInfo').textContent=`Backend health passed, but blueprint loading failed: ${err.message}. Check MongoDB connection and Render logs.`;
+  }
+}
 function render(){let q=$('#search').value.toLowerCase().trim(),cat=$('#category').value,sort=$('#sort').value;let shown=items.filter(x=>(!cat||x.category===cat)&&(!q||[x.title,x.description,x.author,x.category].join(' ').toLowerCase().includes(q)));shown.sort((a,b)=>sort==='popular'?(b.downloads||0)-(a.downloads||0):sort==='oldest'?new Date(a.createdAt)-new Date(b.createdAt):new Date(b.createdAt)-new Date(a.createdAt));$('#gallery').innerHTML=shown.length?shown.map(x=>`<article class="tile" data-id="${esc(x._id)}" tabindex="0"><div class="art">${blueprintArt()}<span class="tag">${esc(x.category)}</span></div><div class="tilebody"><div class="tiletitle">${esc(x.title)}</div><div class="desc">${esc((x.description||'No description provided').slice(0,105))}</div><div class="meta"><span>BY ${esc(x.author)}</span><strong>↓ ${(x.downloads||0).toLocaleString()} DOWNLOADS</strong></div></div></article>`).join(''):`<div class="empty">${items.length?'NO BLUEPRINTS MATCH YOUR FILTERS':'NO BLUEPRINTS YET — BE THE FIRST TO UPLOAD ONE!'}</div>`;$('#resultInfo').textContent=`DISPLAYING ${shown.length} OF ${items.length} BLUEPRINTS`;document.querySelectorAll('.tile').forEach(el=>{el.onclick=()=>detail(el.dataset.id);el.onkeydown=e=>{if(e.key==='Enter')detail(el.dataset.id)}})}
 function show(html){$('#modalContent').innerHTML=html;$('#modal').classList.add('open')};function close(){$('#modal').classList.remove('open')};$('#modal').onclick=e=>{if(e.target===$('#modal'))close()};document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
 function detail(id){let x=items.find(x=>x._id===id);if(!x)return;show(`<div class="modalhead"><div><div class="eyebrow">${esc(x.category)} // BLUEPRINT DETAILS</div><h2 style="margin:5px 0;font-family:Barlow Condensed;font-size:34px">${esc(x.title)}</h2></div><button class="close" id="closeModal">✕ CLOSE</button></div><div class="detail-art">${blueprintArt()}</div><p style="line-height:1.7;color:#cbd2da">${esc(x.description||'No description provided.')}</p><div class="details"><div>CREATOR<b>${esc(x.author)}</b></div><div>DOWNLOADS<b>${(x.downloads||0).toLocaleString()}</b></div><div>FILE SIZE<b>${((x.fileSize||0)/1024).toFixed(1)} KB</b></div></div><div class="row"><button class="btn primary" id="download">↓ DOWNLOAD .BLUEPRINT</button><span class="status">Uploaded ${new Date(x.createdAt).toLocaleDateString()}</span></div>`);$('#closeModal').onclick=close;$('#download').onclick=()=>{window.location.href=`${API_BASE}/api/blueprints/${encodeURIComponent(x._id)}/download`;setTimeout(load,1200)}}
