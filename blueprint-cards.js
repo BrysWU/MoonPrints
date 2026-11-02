@@ -22,10 +22,10 @@
     return value >= 1024*1024 ? `${(value/(1024*1024)).toFixed(1)} MB` : `${(value/1024).toFixed(1)} KB`;
   }
   function exchange(x) {
-    return `<dl class="blueprint-exchange"><div class="creator-fact"><dt>Creator</dt><dd>${esc(x.author || 'Unknown')}</dd></div><div><dt>File size</dt><dd>${esc(fileSize(x.fileSize))}</dd></div><div><dt>Downloads</dt><dd>${quantity(x.downloads ?? 0)}</dd></div></dl>`;
+    return `<dl class="blueprint-exchange"><div class="creator-fact"><dt>Creator</dt><dd>${esc(x.author || 'Unknown')}</dd></div><div><dt>File size</dt><dd>${esc(fileSize(x.fileSize))}</dd></div><div><dt>Downloads</dt><dd>${quantity(x.downloads ?? 0)}</dd></div><div><dt>Likes</dt><dd>${quantity(x.likes ?? 0)}</dd></div></dl>`;
   }
   function card(x, preview) {
-    return `<article class="tile" data-id="${esc(x._id)}" tabindex="0" role="button" aria-label="View ${esc(x.title)} blueprint"><div class="art">${preview}<span class="tag">${esc(x.category)}</span></div><div class="tilebody"><h3 class="tiletitle">${esc(x.title)}</h3><p class="desc">${esc(x.description || 'No description provided.')}</p>${facts(x)}${exchange(x)}<div class="card-action">VIEW BLUEPRINT <span aria-hidden="true">→</span></div></div></article>`;
+    return `<article class="tile" data-id="${esc(x._id)}" tabindex="0" role="button" aria-label="View ${esc(x.title)} blueprint"><div class="art">${preview}<span class="tag">${esc(x.category)}</span></div><div class="tilebody"><h3 class="tiletitle">${esc(x.title)}</h3><p class="desc">${esc(x.description || 'No description provided.')}</p>${facts(x)}${exchange(x)}<button type="button" class="btn like-button" data-like-id="${esc(x._id)}" aria-pressed="false">♡ LIKE · ${quantity(x.likes ?? 0)}</button><div class="card-action">VIEW BLUEPRINT <span aria-hidden="true">→</span></div></div></article>`;
   }
   globalThis.MoonprintCards = {facts,exchange,card,fileSize};
 })();
