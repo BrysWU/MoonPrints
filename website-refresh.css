@@ -6,11 +6,11 @@
 /* These panels grow around their contents; How to/My MoonPrints retain the
    original bounded, scrolling dialog. Small screens scroll the outer overlay
    without clipping fields, descriptions, errors, or linked connections. */
-.modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"]){align-items:flex-start;overflow:auto;overscroll-behavior:contain;scrollbar-width:none}
-.modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"])::-webkit-scrollbar{display:none}
-.modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"]) .dialog{width:min(1120px,100%);max-height:none;overflow:visible;margin-block:auto;flex-shrink:0}
-.modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"]) .modalhead{gap:16px;min-width:0}
-.modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"]) .modalhead>div{min-width:0}
+.modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"],[data-panel="guide"]){align-items:flex-start;overflow:auto;overscroll-behavior:contain;scrollbar-width:none}
+.modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"],[data-panel="guide"])::-webkit-scrollbar{display:none}
+.modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"],[data-panel="guide"]) .dialog{width:min(1120px,100%);max-height:none;overflow:visible;margin-block:auto;flex-shrink:0}
+.modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"],[data-panel="guide"]) .modalhead{gap:16px;min-width:0}
+.modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"],[data-panel="guide"]) .modalhead>div{min-width:0}
 .blueprint-detail-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;align-items:start}
 .detail-media,.detail-info{min-width:0}
 .modal[data-panel="blueprint"] .detail-art{margin:0;height:clamp(220px,43dvh,390px)}
@@ -52,8 +52,8 @@
 @media(max-width:480px){
  .modal[data-panel="upload"] .formgrid{grid-template-columns:minmax(0,1fr)}
  .modal[data-panel="upload"] .formgrid>div{grid-column:1!important;grid-row:auto!important}
- .modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"]) .modalhead{gap:10px}
- .modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"]) .close{padding:8px;font-size:12px}
+ .modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"],[data-panel="guide"]) .modalhead{gap:10px}
+ .modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"],[data-panel="guide"]) .close{padding:8px;font-size:12px}
 }
 
 /* Compact spacing keeps the usual account/upload forms within laptop-height
@@ -69,3 +69,18 @@
 .modal[data-panel="account"] .field{margin:8px 0}
 .modal[data-panel="account"] #accountStatus:empty{display:none}
 @media(max-width:700px){.modal:is([data-panel="upload"],[data-panel="account"]) .dialog>.pad{padding:16px}}
+
+.modal[data-panel="upload"] .upload-category{grid-column:1;grid-row:2}
+.modal[data-panel="upload"] .upload-visibility{grid-column:2;grid-row:2}
+.modal[data-panel="guide"] .dialog{width:min(1400px,100%)}
+.modal[data-panel="guide"] .dialog>.pad{padding:18px}
+.modal[data-panel="guide"] .guide-intro{margin:0 0 14px;font-size:14px;line-height:1.5}
+.modal[data-panel="guide"] .guide-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.modal[data-panel="guide"] .guide-step{margin:0;padding:12px;display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start}
+.modal[data-panel="guide"] .guide-number{width:28px;height:28px;font-size:20px}
+.modal[data-panel="guide"] .guide-step h3{font-size:22px;margin:0 0 8px}
+.modal[data-panel="guide"] .guide-copy{font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+.modal[data-panel="guide"] .guide-path{font-size:12px;margin:8px 0;padding:8px}
+.modal[data-panel="guide"] .guide-note{margin-top:14px;font-size:12px;line-height:1.5;padding:10px 12px}
+@media(max-width:1050px){.modal[data-panel="guide"] .guide-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.modal[data-panel="guide"] .guide-steps{grid-template-columns:minmax(0,1fr)}}
