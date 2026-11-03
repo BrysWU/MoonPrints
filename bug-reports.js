@@ -10,6 +10,7 @@ async function openBugReports(options={}){
  $('#createBug').onclick=showBugCreate;
  $('#bugPrevious').onclick=()=>{if(bugUi.page>1){bugUi.page--;loadBugList()}};
  $('#bugNext').onclick=()=>{if(bugUi.page<bugUi.pages){bugUi.page++;loadBugList()}};
+ startBugLive();
  await loadBugList();
  if(!bugPanelActive())return;
  if(options.id)await selectBugReport(options.id);else if(options.create)showBugCreate();
@@ -21,6 +22,7 @@ async function loadBugList(){
  try{
   const data=await apiCall(`/api/bug-reports?status=${encodeURIComponent(bugUi.status)}&page=${bugUi.page}`,{signal:AbortSignal.timeout(20000)});
   if(!bugPanelActive()||serial!==bugUi.listSerial)return;
+  if(bugUi.page>data.pages){bugUi.page=data.pages;bugUi.listRequest=null;await loadBugList();return}
   bugUi.pages=data.pages;
   $('#bugList').innerHTML=data.reports.length?data.reports.map(report=>`<button class="bug-list-item ${String(report._id)===bugUi.id?'selected':''}" data-bug-id="${esc(report._id)}"><strong>${esc(report.title)}</strong><span>${esc(bugStatusLabel(report.status))}${report.chatClosed?' · Chat closed':''}</span><small>${esc(report.createdBy)} · ${report.messageCount} messages</small></button>`).join(''):'<p class="muted">No reports match this filter.</p>';
   $('#bugList').querySelectorAll('[data-bug-id]').forEach(button=>button.onclick=()=>selectBugReport(button.dataset.bugId));
@@ -91,4 +93,33 @@ function showBugCreate(){
  };
 }
 $('#bugReportsBtn').onclick=()=>openBugReports();
-setInterval(()=>{if(!bugPanelActive()||document.hidden)return;if(bugUi.id)refreshBugChat();if(++bugUi.ticks%6===0||!bugUi.id)loadBugList()},5000);
+// Coalesce live events and wait out in-flight reads instead of losing their updates.
+let bugLive=null,bugLiveReady=false,bugLiveTimer=null,bugLivePending=false;
+function queueBugLiveRefresh(){
+ bugLivePending=true;
+ if(bugLiveTimer)return;
+ bugLiveTimer=setTimeout(async()=>{
+  bugLiveTimer=null;if(!bugPanelActive()||document.hidden)return;
+  if(bugUi.chatRequest||bugUi.listRequest){queueBugLiveRefresh();return}
+  bugLivePending=false;
+  await Promise.allSettled([loadBugList(),bugUi.id?refreshBugChat():Promise.resolve()]);
+  if(bugLivePending)queueBugLiveRefresh();
+ },100);
+}
+function stopBugLive(){bugLive?.close();bugLive=null;bugLiveReady=false;clearTimeout(bugLiveTimer);bugLiveTimer=null}
+function startBugLive(){
+ if(bugLive||!bugPanelActive()||document.hidden||typeof EventSource==='undefined')return;
+ bugLive=new EventSource(API_BASE+'/api/bug-report-events');
+ bugLive.addEventListener('sync',()=>{bugLiveReady=true;queueBugLiveRefresh()});
+ bugLive.addEventListener('bug-change',()=>queueBugLiveRefresh());
+ bugLive.onerror=()=>{bugLiveReady=false};
+}
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stopBugLive();else if(bugPanelActive()){startBugLive();queueBugLiveRefresh()}});
+// Modal closure immediately releases the stream; a later reopen takes a fresh snapshot.
+if(typeof MutationObserver!=='undefined')new MutationObserver(()=>{if(!bugPanelActive())stopBugLive()}).observe($('#modal'),{attributes:true,attributeFilter:['class','data-panel']});
+setInterval(()=>{
+ if(!bugPanelActive()||document.hidden){stopBugLive();return}
+ startBugLive();
+ // Fallback for blocked/disconnected streams, plus reconciliation after missed events.
+ if(!bugLiveReady||++bugUi.ticks%6===0)queueBugLiveRefresh();
+},5000);
