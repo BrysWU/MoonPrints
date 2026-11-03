@@ -160,9 +160,15 @@ function detail(id,ownedBlueprint=null){let x=ownedBlueprint||items.find(x=>x._i
 function upload(skipCooldown=false){if(!currentUser)return authModal('login',upload);if(skipCooldown!==true&&typeof beginUploadWithCooldown==='function'){beginUploadWithCooldown();return}showPanel('upload',`<div class="modalhead"><div><div class="eyebrow">SUBMIT TO COMMUNITY ARCHIVE</div><h2 style="margin:5px 0;font-family:Barlow Condensed;font-size:34px">UPLOAD BLUEPRINT</h2></div><button class="close" id="closeModal">✕ CLOSE</button></div><p class="status">Upload a blueprint and PNG preview. Choose Public to share, or Hidden for access by only you and administrators.</p><form id="uploadForm" class="formgrid"><div><label>BLUEPRINT NAME</label><input name="title" maxlength="80" required placeholder="e.g. Automated Sorting Facility"></div><div><label>CREATOR NAME</label><input value="${esc(currentUser.username)}" disabled title="Your account username is used as the creator"></div><div class="upload-category"><label>CATEGORY</label><select name="category" required><option>Logistics</option><option>Production</option><option>Power</option><option>Structures</option><option>Services</option><option>Other</option></select></div><div class="upload-visibility"><label>VISIBILITY</label><select name="visibility"><option value="public">Public — shared in the gallery</option><option value="hidden">Hidden — private</option></select></div><div class="upload-file"><label>MOONPRINT FILE</label><input id="blueprintFile" type="file" accept=".MoonPrint,.moonprint" required><div class="status">Select one .MoonPrint blueprint file.</div></div><div class="upload-preview"><label>PREVIEW IMAGE (PNG)</label><input id="previewFile" type="file" accept=".png,image/png" required><div class="status">Select one PNG image to display in the gallery.</div><div id="imagePreview" style="margin-top:10px"></div></div><div class="upload-description"><label>DESCRIPTION</label><textarea name="description" rows="4" maxlength="1500" placeholder="Describe how your build works..."></textarea></div><div class="full row"><button class="btn primary" type="submit" id="submitUpload">↑ PUBLISH BLUEPRINT</button><span class="status" id="uploadStatus" role="status"></span></div></form>`);
 $('#closeModal').onclick=close;
 let previewURL=null;
-$('#blueprintFile').addEventListener('change',()=>{
- const file=$('#blueprintFile').files[0];
- if(file&&!$('#uploadForm').elements.title.value.trim())$('#uploadForm').elements.title.value=file.name.replace(/\.moonprint$/i,'');
+$('#blueprintFile').addEventListener('change',async()=>{
+ const input=$('#blueprintFile'),file=input.files[0],form=$('#uploadForm');
+ if(file&&!form.elements.title.value.trim())form.elements.title.value=file.name.replace(/\.moonprint$/i,'');
+ const description=form.elements.description,previous=description.value;
+ if(!file||previous.trim()||file.size>8*1024*1024)return;
+ try{
+  const document=JSON.parse(await file.text());
+  if($('#uploadForm')===form&&input.files[0]===file&&description.value===previous&&typeof document.description==='string')description.value=document.description.slice(0,1500);
+ }catch{} // Server validates the file and reports malformed uploads on submission.
 });
 $('#previewFile').addEventListener('change',()=>{
  if(previewURL)URL.revokeObjectURL(previewURL);
