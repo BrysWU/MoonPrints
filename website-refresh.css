@@ -108,6 +108,8 @@
 .cooldown-panel [data-wait-upload]{width:100%}.cooldown-panel [data-wait-upload]:disabled{background:#454c56;color:#abb1b9;opacity:1;cursor:not-allowed}
 @media(max-width:700px){.notification-center{width:100%}#notificationsBtn{width:100%}.notification-dropdown .btn{padding:10px 12px}.notification-heading .close{min-height:36px;padding:6px}}
 .header-actions{flex:1 1 auto;justify-content:flex-end}
+.lt3-navbar-feedback{display:flex;align-items:center;min-width:0}
+@media(max-width:700px){.lt3-navbar-feedback>*{width:100%}}
 
 /* Keep publishing beside the gallery filters, below the search row. */
 .exchange-toolbar{display:flex;align-items:center;gap:14px;margin:18px 0 12px;min-width:0}
