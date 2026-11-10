@@ -1,89 +1,89 @@
 /* Responsive exchange and account panels. */
 .header{flex-wrap:wrap}.header-actions [hidden]{display:none!important}.btn,button{min-height:44px}.btn{text-decoration:none;line-height:1.4}a{color:#ffb25c}:focus-visible{outline:2px solid #ffb25c;outline-offset:3px}.subtitle,.muted{line-height:1.65}.modalhead{align-items:flex-start}.modalhead h2{margin:5px 0 14px!important;overflow-wrap:anywhere}.close{flex-shrink:0}.manage-card{padding:18px;margin:12px 0}.manage-card h3{font:700 25px/1.2 'Barlow Condensed',sans-serif;overflow-wrap:anywhere}.account-identity,.dashboard-summary{background:#20262e;border-radius:9px;padding:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:18px 0}.settings-section{background:#222831;border:1px solid #454c56;border-radius:9px;padding:18px;margin-top:16px}.settings-section h3{margin-top:0}.guide-copy{font-size:14px;line-height:1.8;color:#c1cad4}.guide-path{margin:12px 0}.tabs{gap:6px;margin-bottom:12px}.tab{border-radius:6px}body.modal-open{overflow:hidden}
-@media(max-width:700px){.pad{padding:16px}.layout{margin-top:16px;gap:16px}.header-actions{display:grid;grid-template-columns:1fr 1fr;width:100%;gap:8px}.header-actions .btn{display:flex;justify-content:center;align-items:center;text-align:center;padding:12px 8px}.side .pad{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px 12px}.side h3{grid-column:1/-1;margin:0}.side label{grid-row:2;margin:4px 0}.side select{grid-row:3;min-width:0}.side label:nth-of-type(3),.side .stat{display:none}.side #refresh{grid-column:1/-1;margin-top:4px!important}.content-head .search{max-width:none}.tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px}.tab{flex-shrink:0}.modal{padding:8px}.dialog{width:100%;max-height:96dvh}.dialog .pad{padding:16px}.modalhead h2{font-size:28px!important}.guide-step{grid-template-columns:28px minmax(0,1fr);gap:10px;padding:12px}.guide-number{width:28px;height:28px;font-size:20px}.guide-step h3{font-size:21px}input,select,textarea{font-size:16px!important;min-width:0}.formgrid>div{min-width:0}.account-actions{flex-direction:column}.manage-card .row .btn{flex:1}.kofi-floating{position:static;max-width:100%;text-align:center;margin:16px}.foot{padding-bottom:0}.empty{padding:30px 12px}.gallery{min-height:200px}.settings-section{padding:14px}}
+@media(max-width:700px){.pad{padding:16px}.layout{margin-top:16px;gap:16px}.header-actions{display:grid;grid-template-columns:1fr 1fr;width:100%;gap:8px}.header-actions .btn{display:flex;justify-content:center;align-items:center;text-align:center;padding:12px 8px}.side .pad{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px 12px}.side h3{grid-column:1/-1;margin:0}.side label{grid-row:2;margin:4px 0}.side select{grid-row:3;min-width:0}.side label:nth-of-type(3),.side .stat{display:none}.side #refresh{grid-column:1/-1;margin-top:4px!important}.content-head .search{max-width:none}.tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px}.tab{flex-shrink:0}#modal{padding:8px}#modal .dialog{width:100%;max-height:96dvh}#modal .dialog .pad{padding:16px}.modalhead h2{font-size:28px!important}.guide-step{grid-template-columns:28px minmax(0,1fr);gap:10px;padding:12px}.guide-number{width:28px;height:28px;font-size:20px}.guide-step h3{font-size:21px}input,select,textarea{font-size:16px!important;min-width:0}.formgrid>div{min-width:0}.account-actions{flex-direction:column}.manage-card .row .btn{flex:1}.kofi-floating{position:static;max-width:100%;text-align:center;margin:16px}.foot{padding-bottom:0}.empty{padding:30px 12px}.gallery{min-height:200px}.settings-section{padding:14px}}
 @media(prefers-reduced-motion:reduce){*,*:before{animation:none!important;transition:none!important}}
 
 /* These panels grow around their contents; How to/My MoonPrints retain the
    original bounded, scrolling dialog. Small screens scroll the outer overlay
    without clipping fields, descriptions, errors, or linked connections. */
-.modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"],[data-panel="guide"]){align-items:flex-start;overflow:auto;overscroll-behavior:contain;scrollbar-width:none}
-.modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"],[data-panel="guide"])::-webkit-scrollbar{display:none}
-.modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"],[data-panel="guide"]) .dialog{width:min(1120px,100%);max-height:none;overflow:visible;margin-block:auto;flex-shrink:0}
-.modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"],[data-panel="guide"]) .modalhead{gap:16px;min-width:0}
-.modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"],[data-panel="guide"]) .modalhead>div{min-width:0}
+#modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"],[data-panel="guide"]){align-items:flex-start;overflow:auto;overscroll-behavior:contain;scrollbar-width:none}
+#modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"],[data-panel="guide"])::-webkit-scrollbar{display:none}
+#modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"],[data-panel="guide"]) .dialog{width:min(1120px,100%);max-height:none;overflow:visible;margin-block:auto;flex-shrink:0}
+#modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"],[data-panel="guide"]) .modalhead{gap:16px;min-width:0}
+#modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"],[data-panel="guide"]) .modalhead>div{min-width:0}
 .blueprint-detail-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;align-items:start}
 .detail-media,.detail-info{min-width:0}
-.modal[data-panel="blueprint"] .detail-art{margin:0;height:clamp(220px,43dvh,390px)}
-.modal[data-panel="blueprint"] .detail-description{overflow-wrap:anywhere;white-space:pre-wrap;margin:14px 0 0}
-.modal[data-panel="blueprint"] #modalContent .blueprint-facts,.modal[data-panel="blueprint"] #modalContent .blueprint-exchange{grid-template-columns:repeat(2,minmax(0,1fr))}
-.modal[data-panel="blueprint"] .blueprint-facts>div{padding:9px 11px}
-.modal[data-panel="blueprint"] .row{gap:10px;margin-top:16px;flex-wrap:wrap}
-.modal[data-panel="blueprint"] .like-button{margin-top:0}
-.modal[data-panel="upload"] .formgrid{grid-template-columns:repeat(2,minmax(0,1fr)) minmax(240px,.95fr);gap:14px 18px;align-items:start}
-.modal[data-panel="upload"] .formgrid>div{min-width:0}
-.modal[data-panel="upload"] .upload-category{grid-column:1/3;grid-row:2}
-.modal[data-panel="upload"] .upload-file{grid-column:1/3;grid-row:3}
-.modal[data-panel="upload"] .upload-description{grid-column:1/3;grid-row:4}
-.modal[data-panel="upload"] .upload-preview{grid-column:3;grid-row:1/5}
-.modal[data-panel="upload"] #imagePreview{height:220px;display:grid;place-items:center;background:#1c2128;border:1px dashed #454c56;border-radius:8px;overflow:hidden}
-.modal[data-panel="upload"] #imagePreview:empty:before{content:"Your PNG preview appears here";color:#a6adb8;font-size:13px;padding:16px;text-align:center}
-.modal[data-panel="upload"] #imagePreview img{display:block;width:100%;height:100%;max-height:100%!important;object-fit:contain}
-.modal[data-panel="upload"] textarea{min-height:96px;resize:vertical}
-.modal[data-panel="upload"] input[type="file"]{font-size:13px;padding:10px;max-width:100%}
-.modal[data-panel="account"] #modalContent{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px}
-.modal[data-panel="account"] .modalhead,.modal[data-panel="account"] .account-identity{grid-column:1/-1}
-.modal[data-panel="account"] .account-identity{margin:0;padding:12px 16px}
-.modal[data-panel="account"] .account-identity h3{margin:4px 0;font-size:22px;overflow-wrap:anywhere}
-.modal[data-panel="account"] .settings-section{min-width:0;margin:0;padding:12px}
-.modal[data-panel="account"] .settings-section h3{margin:0 0 10px}
-.modal[data-panel="account"] .settings-section .muted{font-size:14px;line-height:1.5;overflow-wrap:anywhere}
-.modal[data-panel="account"] .field{margin:10px 0}
-.modal[data-panel="account"] input{padding:10px}
-.modal[data-panel="account"] .manage-card{padding:12px;margin:10px 0}
-.modal[data-panel="account"] .manage-card h3{font-size:21px}
+#modal[data-panel="blueprint"] .detail-art{margin:0;height:clamp(220px,43dvh,390px)}
+#modal[data-panel="blueprint"] .detail-description{overflow-wrap:anywhere;white-space:pre-wrap;margin:14px 0 0}
+#modal[data-panel="blueprint"] #modalContent .blueprint-facts,#modal[data-panel="blueprint"] #modalContent .blueprint-exchange{grid-template-columns:repeat(2,minmax(0,1fr))}
+#modal[data-panel="blueprint"] .blueprint-facts>div{padding:9px 11px}
+#modal[data-panel="blueprint"] .row{gap:10px;margin-top:16px;flex-wrap:wrap}
+#modal[data-panel="blueprint"] .like-button{margin-top:0}
+#modal[data-panel="upload"] .formgrid{grid-template-columns:repeat(2,minmax(0,1fr)) minmax(240px,.95fr);gap:14px 18px;align-items:start}
+#modal[data-panel="upload"] .formgrid>div{min-width:0}
+#modal[data-panel="upload"] .upload-category{grid-column:1/3;grid-row:2}
+#modal[data-panel="upload"] .upload-file{grid-column:1/3;grid-row:3}
+#modal[data-panel="upload"] .upload-description{grid-column:1/3;grid-row:4}
+#modal[data-panel="upload"] .upload-preview{grid-column:3;grid-row:1/5}
+#modal[data-panel="upload"] #imagePreview{height:220px;display:grid;place-items:center;background:#1c2128;border:1px dashed #454c56;border-radius:8px;overflow:hidden}
+#modal[data-panel="upload"] #imagePreview:empty:before{content:"Your PNG preview appears here";color:#a6adb8;font-size:13px;padding:16px;text-align:center}
+#modal[data-panel="upload"] #imagePreview img{display:block;width:100%;height:100%;max-height:100%!important;object-fit:contain}
+#modal[data-panel="upload"] textarea{min-height:96px;resize:vertical}
+#modal[data-panel="upload"] input[type="file"]{font-size:13px;padding:10px;max-width:100%}
+#modal[data-panel="account"] #modalContent{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px}
+#modal[data-panel="account"] .modalhead,#modal[data-panel="account"] .account-identity{grid-column:1/-1}
+#modal[data-panel="account"] .account-identity{margin:0;padding:12px 16px}
+#modal[data-panel="account"] .account-identity h3{margin:4px 0;font-size:22px;overflow-wrap:anywhere}
+#modal[data-panel="account"] .settings-section{min-width:0;margin:0;padding:12px}
+#modal[data-panel="account"] .settings-section h3{margin:0 0 10px}
+#modal[data-panel="account"] .settings-section .muted{font-size:14px;line-height:1.5;overflow-wrap:anywhere}
+#modal[data-panel="account"] .field{margin:10px 0}
+#modal[data-panel="account"] input{padding:10px}
+#modal[data-panel="account"] .manage-card{padding:12px;margin:10px 0}
+#modal[data-panel="account"] .manage-card h3{font-size:21px}
 @media(max-width:760px){
- .blueprint-detail-layout,.modal[data-panel="account"] #modalContent{grid-template-columns:minmax(0,1fr)}
- .modal[data-panel="blueprint"] .detail-art{height:clamp(180px,34dvh,300px)}
- .modal[data-panel="upload"] .formgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
- .modal[data-panel="upload"] .upload-preview{grid-column:1/-1;grid-row:4}
- .modal[data-panel="upload"] .upload-description{grid-row:5}
- .modal[data-panel="upload"] #imagePreview{height:180px}
+ .blueprint-detail-layout,#modal[data-panel="account"] #modalContent{grid-template-columns:minmax(0,1fr)}
+ #modal[data-panel="blueprint"] .detail-art{height:clamp(180px,34dvh,300px)}
+ #modal[data-panel="upload"] .formgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #modal[data-panel="upload"] .upload-preview{grid-column:1/-1;grid-row:4}
+ #modal[data-panel="upload"] .upload-description{grid-row:5}
+ #modal[data-panel="upload"] #imagePreview{height:180px}
 }
 @media(max-width:480px){
- .modal[data-panel="upload"] .formgrid{grid-template-columns:minmax(0,1fr)}
- .modal[data-panel="upload"] .formgrid>div{grid-column:1!important;grid-row:auto!important}
- .modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"],[data-panel="guide"]) .modalhead{gap:10px}
- .modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"],[data-panel="guide"]) .close{padding:8px;font-size:12px}
+ #modal[data-panel="upload"] .formgrid{grid-template-columns:minmax(0,1fr)}
+ #modal[data-panel="upload"] .formgrid>div{grid-column:1!important;grid-row:auto!important}
+ #modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"],[data-panel="guide"]) .modalhead{gap:10px}
+ #modal:is([data-panel="blueprint"],[data-panel="upload"],[data-panel="account"],[data-panel="guide"]) .close{padding:8px;font-size:12px}
 }
 
 /* Compact spacing keeps the usual account/upload forms within laptop-height
    viewports; long descriptions or extra linked devices can still grow safely. */
-.modal:is([data-panel="upload"],[data-panel="account"]) .dialog>.pad{padding:18px}
-.modal:is([data-panel="upload"],[data-panel="account"]) .modalhead h2{margin:5px 0 6px!important;font-size:30px!important}
-.modal[data-panel="upload"] #modalContent>.status{margin:0 0 12px}
-.modal[data-panel="upload"] .formgrid{row-gap:10px}
-.modal[data-panel="upload"] textarea{min-height:88px;height:88px}
-.modal[data-panel="account"] #modalContent{gap:12px}
-.modal[data-panel="account"] .account-identity{padding:8px 12px}
-.modal[data-panel="account"] .settings-section .muted{margin:8px 0}
-.modal[data-panel="account"] .field{margin:8px 0}
-.modal[data-panel="account"] #accountStatus:empty{display:none}
-@media(max-width:700px){.modal:is([data-panel="upload"],[data-panel="account"]) .dialog>.pad{padding:16px}}
+#modal:is([data-panel="upload"],[data-panel="account"]) .dialog>.pad{padding:18px}
+#modal:is([data-panel="upload"],[data-panel="account"]) .modalhead h2{margin:5px 0 6px!important;font-size:30px!important}
+#modal[data-panel="upload"] #modalContent>.status{margin:0 0 12px}
+#modal[data-panel="upload"] .formgrid{row-gap:10px}
+#modal[data-panel="upload"] textarea{min-height:88px;height:88px}
+#modal[data-panel="account"] #modalContent{gap:12px}
+#modal[data-panel="account"] .account-identity{padding:8px 12px}
+#modal[data-panel="account"] .settings-section .muted{margin:8px 0}
+#modal[data-panel="account"] .field{margin:8px 0}
+#modal[data-panel="account"] #accountStatus:empty{display:none}
+@media(max-width:700px){#modal:is([data-panel="upload"],[data-panel="account"]) .dialog>.pad{padding:16px}}
 
-.modal[data-panel="upload"] .upload-category{grid-column:1;grid-row:2}
-.modal[data-panel="upload"] .upload-visibility{grid-column:2;grid-row:2}
-.modal[data-panel="guide"] .dialog{width:min(1400px,100%)}
-.modal[data-panel="guide"] .dialog>.pad{padding:18px}
-.modal[data-panel="guide"] .guide-intro{margin:0 0 14px;font-size:14px;line-height:1.5}
-.modal[data-panel="guide"] .guide-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.modal[data-panel="guide"] .guide-step{margin:0;padding:12px;display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start}
-.modal[data-panel="guide"] .guide-number{width:28px;height:28px;font-size:20px}
-.modal[data-panel="guide"] .guide-step h3{font-size:22px;margin:0 0 8px}
-.modal[data-panel="guide"] .guide-copy{font-size:13px;line-height:1.5;overflow-wrap:anywhere}
-.modal[data-panel="guide"] .guide-path{font-size:12px;margin:8px 0;padding:8px}
-.modal[data-panel="guide"] .guide-note{margin-top:14px;font-size:12px;line-height:1.5;padding:10px 12px}
-@media(max-width:1050px){.modal[data-panel="guide"] .guide-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:600px){.modal[data-panel="guide"] .guide-steps{grid-template-columns:minmax(0,1fr)}}
+#modal[data-panel="upload"] .upload-category{grid-column:1;grid-row:2}
+#modal[data-panel="upload"] .upload-visibility{grid-column:2;grid-row:2}
+#modal[data-panel="guide"] .dialog{width:min(1400px,100%)}
+#modal[data-panel="guide"] .dialog>.pad{padding:18px}
+#modal[data-panel="guide"] .guide-intro{margin:0 0 14px;font-size:14px;line-height:1.5}
+#modal[data-panel="guide"] .guide-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+#modal[data-panel="guide"] .guide-step{margin:0;padding:12px;display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start}
+#modal[data-panel="guide"] .guide-number{width:28px;height:28px;font-size:20px}
+#modal[data-panel="guide"] .guide-step h3{font-size:22px;margin:0 0 8px}
+#modal[data-panel="guide"] .guide-copy{font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+#modal[data-panel="guide"] .guide-path{font-size:12px;margin:8px 0;padding:8px}
+#modal[data-panel="guide"] .guide-note{margin-top:14px;font-size:12px;line-height:1.5;padding:10px 12px}
+@media(max-width:1050px){#modal[data-panel="guide"] .guide-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){#modal[data-panel="guide"] .guide-steps{grid-template-columns:minmax(0,1fr)}}
 
 /* Account inbox uses the same orange/charcoal surfaces as the exchange. */
 .notification-center{position:relative}
@@ -98,18 +98,17 @@
 .notification-entry strong{font-size:14px;overflow-wrap:anywhere}.notification-entry span,.notification-entry time{font-size:12px;color:#aeb7c3}
 .notification-empty{padding:16px;margin:0}.notification-dropdown>.alert-error{padding:0 14px}
 .notification-message{white-space:pre-wrap;overflow-wrap:anywhere;background:#20262e;border:1px solid var(--line);border-radius:8px;padding:18px;line-height:1.7;margin:18px 0}
-.modal[data-panel="notification"]{align-items:flex-start;overflow:auto;scrollbar-width:none}
-.modal[data-panel="notification"]::-webkit-scrollbar{display:none}
-.modal[data-panel="notification"] .dialog{max-height:none;overflow:visible;margin-block:auto}
-.modal[data-panel="notification"] h2{font:700 30px/1.2 'Barlow Condensed',sans-serif;overflow-wrap:anywhere}
+#modal[data-panel="notification"]{align-items:flex-start;overflow:auto;scrollbar-width:none}
+#modal[data-panel="notification"]::-webkit-scrollbar{display:none}
+#modal[data-panel="notification"] .dialog{max-height:none;overflow:visible;margin-block:auto}
+#modal[data-panel="notification"] h2{font:700 30px/1.2 'Barlow Condensed',sans-serif;overflow-wrap:anywhere}
 .upload-cooldown-overlay{position:fixed;inset:0;background:#05080be8;z-index:70;display:grid;place-items:center;padding:18px;overflow:auto}
 .cooldown-panel{width:min(500px,100%)}.cooldown-panel h2{font:700 28px/1.15 'Barlow Condensed',sans-serif;margin:0}
 .cooldown-clock{text-align:center;font:800 46px/1.3 'Barlow Condensed',sans-serif;color:#ffb25c;margin:22px 0;font-variant-numeric:tabular-nums}
 .cooldown-panel [data-wait-upload]{width:100%}.cooldown-panel [data-wait-upload]:disabled{background:#454c56;color:#abb1b9;opacity:1;cursor:not-allowed}
 @media(max-width:700px){.notification-center{width:100%}#notificationsBtn{width:100%}.notification-dropdown .btn{padding:10px 12px}.notification-heading .close{min-height:36px;padding:6px}}
 .header-actions{flex:1 1 auto;justify-content:flex-end}
-/* LT3 renders a trigger here; Feedback in the navbar forwards clicks to it. */
-#lt3FeedbackMount[hidden]{display:none!important}
+#bootScreen[hidden]{display:none!important}
 
 /* Keep publishing beside the gallery filters, below the search row. */
 .exchange-toolbar{display:flex;align-items:center;gap:14px;margin:18px 0 12px;min-width:0}
@@ -118,10 +117,10 @@
 @media(max-width:580px){.exchange-toolbar{flex-wrap:wrap;gap:10px}.exchange-toolbar .tabs{flex-basis:100%}.exchange-toolbar #uploadBtn{margin-left:auto}}
 
 /* Public bug-report browser and discussion threads. */
-.modal[data-panel="bugs"]{align-items:flex-start;overflow:auto;scrollbar-width:none}
-.modal[data-panel="bugs"]::-webkit-scrollbar{display:none}
-.modal[data-panel="bugs"] .dialog{width:min(1220px,100%);max-height:none;overflow:visible;margin-block:auto}
-.modal[data-panel="bugs"] h2{font:800 32px/1.15 'Barlow Condensed',sans-serif;margin:0}
+#modal[data-panel="bugs"]{align-items:flex-start;overflow:auto;scrollbar-width:none}
+#modal[data-panel="bugs"]::-webkit-scrollbar{display:none}
+#modal[data-panel="bugs"] .dialog{width:min(1220px,100%);max-height:none;overflow:visible;margin-block:auto}
+#modal[data-panel="bugs"] h2{font:800 32px/1.15 'Barlow Condensed',sans-serif;margin:0}
 .bug-toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:16px 0}
 .bug-toolbar select{width:auto;flex:1;background:#1c2128;color:#f6f1e8;border:1px solid var(--line);padding:12px;border-radius:7px;font:inherit}
 .bug-workspace{display:grid;grid-template-columns:minmax(220px,.7fr) minmax(0,1.7fr);gap:18px;align-items:start}
