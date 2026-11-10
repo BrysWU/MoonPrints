@@ -92,7 +92,9 @@ function showBugCreate(){
   finally{if(document.contains(button))button.disabled=false}
  };
 }
-$('#bugReportsBtn').onclick=()=>openBugReports();
+// Legacy frontend disabled: its script include in index.html is commented out.
+// Restore that include and this binding to bring back the original report UI.
+// $('#bugReportsBtn').onclick=()=>openBugReports();
 // Coalesce live events and wait out in-flight reads instead of losing their updates.
 let bugLive=null,bugLiveReady=false,bugLiveTimer=null,bugLivePending=false;
 function queueBugLiveRefresh(){
